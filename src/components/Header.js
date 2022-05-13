@@ -6,7 +6,6 @@ return(
 <Navbar
     color="primary" dark 
     expand="md"
-    fixed="top"
     light
 >
  <div className ="container">
