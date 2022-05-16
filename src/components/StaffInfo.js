@@ -9,7 +9,7 @@ class StaffInfo extends Component{
    renderStaff(staff) {
             if (staff != null)
                 return(
-                    <Card>
+                    <Card style={{backgroundColor: "#E8E8E8"}}>
                         <CardBody>
                           <CardTitle>Họ và tên: {staff.name}</CardTitle>
                           <CardText>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")} </CardText>
