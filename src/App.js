@@ -9,16 +9,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      staffs: STAFFS
+      staffs: STAFFS,
+   
     };
   }
+  
   render(){
     return(
     <div className="App">
     
       <Header/>
-  
-      <StaffList staffs={this.state.staffs}/>
+   
+      <StaffList staffs={this.state.staffs} className ={this.state.numberCol}/>
     </div>
     )
   };

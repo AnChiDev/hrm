@@ -22,7 +22,7 @@ class StaffInfo extends Component{
                 );
             else
                 return(
-                    <div></div>
+                  <div></div>
                 );
         }
         render() {
