@@ -41,11 +41,11 @@ constructor(props){
         render() {
             const menu = this.props.staffs.map((staff) => {
                 return (
-                  <div  className={this.state.classDefault}>
-                    <Card key={staff.id}
+                  <div className={this.state.classDefault}>
+                    <div key={staff.id}
                       onClick={() => this.onStaffSelect(staff)}>
-                          <CardTitle>{staff.name}</CardTitle>
-                    </Card>
+                          <CardTitle  style={{ fontWeight: 550, backgroundColor: "#C6E2FF", textAlign:"center", height:30}}>{staff.name}</CardTitle>
+                    </div>
                   </div>
                 );
             });
@@ -61,7 +61,7 @@ constructor(props){
                        <StaffInfo selectedStaff={this.state.selectedStaff} />
                      </div>
                      <p> Bấm vào tên nhân viên để xem thông tin </p>
-                     <div id ="selectNumberCol" className ="m-3" >
+                     <div id ="selectNumberCol" className ="m-1" >
                         <label> Chọn số cột hiển thị: </label>
                         <select id ="numberCol" onChange={() => this.onSelectedCol()}>
                         <option value = "col-12 col-md-6 col-lg-6 mt-3"> Mặc định</option>
