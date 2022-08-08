@@ -1,5 +1,5 @@
 import react, {Component} from 'react';
-import {Card, CardText, CardTitle, CardBody} from 'reactstrap';
+import {Card, CardText, CardTitle, CardBody, CardImg} from 'reactstrap';
 import StaffInfo from './StaffInfo.js'
 
 
@@ -44,6 +44,7 @@ constructor(props){
                   <div className={this.state.classDefault}>
                     <div key={staff.id}
                       onClick={() => this.onStaffSelect(staff)}>
+                        <CardImg src = {staff.image} alt={staff.name}/>
                           <CardTitle  style={{ fontWeight: 550, backgroundColor: "#C6E2FF", textAlign:"center", height:30}}>{staff.name}</CardTitle>
                     </div>
                   </div>
