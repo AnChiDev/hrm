@@ -8,7 +8,7 @@ constructor(props){
     super(props);
     this.state ={
         selectedStaff: null,
-        classDefault: "col-12 col-md-6 col-lg-6 mt-3"
+        classDefault: "col col-6 col-md-4 col-lg-2"
     }
 }
     onStaffSelect(staff) {
@@ -65,11 +65,11 @@ constructor(props){
                      <div id ="selectNumberCol" className ="m-1" >
                         <label> Chọn số cột hiển thị: </label>
                         <select id ="numberCol" onChange={() => this.onSelectedCol()}>
-                        <option value = "col-12 col-md-6 col-lg-6 mt-3"> Mặc định</option>
-                        <option value = "col-12 col-md-12 col-lg-12 mt-3"> 1 cột</option>
-                        <option value = "col-12 col-md-4 col-lg-4 mt-3"> 3 cột</option>
-                        <option value = "col-12 col-md-3 col-lg-3 mt-3"> 4 cột</option>
-                        <option value = "col-12 col-md-2 col-lg-2 mt-3"> 6 cột</option>
+                        <option value = "col col-6 col-md-4 col-lg-2 mt-3"> Mặc định</option>
+                        <option value = "col col-6 col-md-12 col-lg-12 mt-3"> 1 cột</option>
+                        <option value = "col col-6 col-md-4 col-lg-4 mt-3"> 3 cột</option>
+                        <option value = "col col-6 col-md-3 col-lg-3 mt-3"> 4 cột</option>
+                        <option value = "col col-6 col-md-6 col-lg-6 mt-3"> 2cột</option>
                         </select>
                     </div>
                     
