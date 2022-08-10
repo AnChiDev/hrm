@@ -19,9 +19,9 @@ return(
     </Navbar.Collapse>
   </Container>
 </Navbar>
-<div className ="container">
+<div className ="container-fluid">
   <div className ="row"> 
-  <h4>Nhân viên</h4>
+  <h3 className ="m-3">Nhân viên</h3>
   </div>
 </div>
 </div>

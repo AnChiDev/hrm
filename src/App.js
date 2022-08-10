@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
+import react, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Main from './components/Main';
-import { BrowserRouter } from 'react-router-dom';
-
+import Header from './components/Header.js';
+import StaffList from './components/StaffListComponent.js';
+import {STAFFS} from './shared/staffs.jsx';
+import Footer from './components/Footer';
 
 class App extends Component {
-   render(){
+  constructor(props) {
+    super(props);
+    this.state = {
+      staffs: STAFFS,
+   
+    };
+  }
+  
+  render(){
     return(
-      <BrowserRouter>
-      <div className="App">
-        <Main />
-      </div>
-    </BrowserRouter>
+    <div className="App">
+    
+      <Header/>
+   
+      <StaffList staffs={this.state.staffs} className ={this.state.numberCol}/>
+      <Footer/>
+    </div>
     )
   };
 }
