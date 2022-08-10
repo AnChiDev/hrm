@@ -1,5 +1,5 @@
-import react, {Component} from 'react';
-import {Card, CardText, CardTitle, CardBody, CardImg} from 'reactstrap';
+import React, {Component} from 'react';
+import {CardTitle,CardImg} from 'reactstrap';
 import StaffInfo from './StaffInfo.js'
 
 
@@ -8,7 +8,7 @@ constructor(props){
     super(props);
     this.state ={
         selectedStaff: null,
-        classDefault: "col col-6 col-md-4 col-lg-2"
+        classDefault: "col col-6 col-md-4 col-lg-2 mt-3"
     }
 }
     onStaffSelect(staff) {
@@ -18,26 +18,7 @@ constructor(props){
         col = document.getElementById('numberCol').value;
         this.setState({classDefault: col})
     }
-//hiển thị thông tin khi click
-//    renderStaff(staff) {
-//             if (staff != null)
-//                 return(
-//                     <Card>
-//                         <CardBody>
-//                           <CardTitle>Họ và tên: {staff.name}</CardTitle>
-//                           <CardText>Ngày sinh: {staff.doB} </CardText>
-//                           <CardText>Ngày vào công ty:{staff.startDate} </CardText>
-//                           {/* <CardText>Phòng ban:{staff.department} </CardText> */}
-//                           <CardText>Số ngày nghỉ còn lại:{staff.annualLeave} </CardText>
-//                           <CardText>Số ngày đã làm thêm: {staff.overTime} </CardText>
-//                         </CardBody>
-//                     </Card>
-//                 );
-//             else
-//                 return(
-//                     <div></div>
-//                 );
-//         }
+
         render() {
             const menu = this.props.staffs.map((staff) => {
                 return (
@@ -57,12 +38,12 @@ constructor(props){
                         {menu}
                     </div>
                     <div className="row">
-                      <div  className="col-12 col-md-5 m-1">
+                      <div  className="col-12 col-md-5">
                        {/* {this.renderStaff(this.state.selectedStaff)} */}
                        <StaffInfo selectedStaff={this.state.selectedStaff} />
                      </div>
                      <p> Bấm vào tên nhân viên để xem thông tin </p>
-                     <div id ="selectNumberCol" className ="m-1" >
+                     <div id ="selectNumberCol" className ="mb-1" >
                         <label> Chọn số cột hiển thị: </label>
                         <select id ="numberCol" onChange={() => this.onSelectedCol()}>
                         <option value = "col col-6 col-md-4 col-lg-2 mt-3"> Mặc định</option>
