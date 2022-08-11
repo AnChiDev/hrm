@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Card, CardImg,
     CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {Input, Form, Row, Col, Button} from 'reactstrap';
 
 
 function RenderStaffList ({staff}) {
@@ -14,17 +15,24 @@ function RenderStaffList ({staff}) {
         </Card>
     );
 }
+
 class StaffList extends Component{
 constructor(props){
     super(props);
     this.state ={
         staffs: this.props.staffs,
-        classDefault: "col col-6 col-md-4 col-lg-2 mt-3"
+        classDefault: "col col-6 col-md-4 col-lg-2 mt-3",
+        searchName: "",
     }
-}
-//     onStaffSelect(staff) {
-//     this.setState({ selectedStaff: staff});
-// }
+   this.handleSearch = this.handleSearch.bind(this)
+    }
+    handleSearch(e){
+        const searchName = this.search.value
+        this.setState({
+            staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(searchName.toLowerCase()))
+        })
+        e.preventDefault()
+    }
     onSelectedCol(col){
         col = document.getElementById('numberCol').value;
         this.setState({classDefault: col})
@@ -58,7 +66,6 @@ constructor(props){
                     {menu}
                 </div>
                     <div className="row">
-                 
                      <p> Bấm vào tên nhân viên để xem thông tin </p>
                      <div id ="selectNumberCol" className ="mb-1" >
                         <label> Chọn số cột hiển thị: </label>
@@ -70,7 +77,24 @@ constructor(props){
                         <option value = "col col-6 col-md-6 col-lg-6 mt-3"> 2cột</option>
                         </select>
                     </div>
-                    
+                    </div>
+                    <div className ="row mb-3">
+                        <p> Tìm kiếm nhân viên:  </p>
+                        <div class="col col-4">
+                        <Form onSubmit={this.handleSearch}>
+                        <Row className="form-group" >
+                            <Col md={10}>
+                                <Input type="text" name="name" id="name"
+                                    innerRef={input => this.search = input}
+                                    placeholder="Nhập tên nhân viên muốn tìm"
+                                />
+                            </Col>
+                            <Col md={2} >
+                                <Button color="primary" type="submit" >Tìm</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                        </div>
                     </div>
                 </div>
 

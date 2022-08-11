@@ -14,7 +14,7 @@ return(
       <Nav className="me-auto">
         <Nav.Link href="/StaffList"  className ="text-light fs-5"><i class="fa fa-users" aria-hidden="true"> Nhân viên</i></Nav.Link>
         <Nav.Link href="/Department"  className ="text-light fs-5"><i class="fa fa-id-card-o" aria-hidden="true"> Phòng ban</i></Nav.Link>
-        <Nav.Link href="/"  className ="text-light fs-5"><i class="fa fa-money" aria-hidden="true"> Bảng lương</i></Nav.Link>
+        <Nav.Link href="/Salary"  className ="text-light fs-5"><i class="fa fa-money" aria-hidden="true"> Bảng lương</i></Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Container>

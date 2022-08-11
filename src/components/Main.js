@@ -7,6 +7,7 @@ import Footer from './Footer.js';
 import Home from './Home.js';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Department from './Departments.js';
+import Salary from './Salary.js';
 
 class Main extends Component {
 
@@ -37,7 +38,8 @@ class Main extends Component {
               <Route path='/home' component={HomePage} />
               <Route exact path='/StaffList' component={() => <StaffList staffs={this.state.staffs} />} />
               <Route path='/StaffList/:staffId' component ={StaffWithID}/> 
-              <Route exact path='/Department' component={() => <Department departments={this.state.departments} />} />            
+              <Route exact path='/Department' component={() => <Department departments={this.state.departments} />} />      
+              <Route exact path='/Salary' component={() => <Salary staffs={this.state.staffs} />} />          
               <Redirect to="/home" />
           </Switch>
           <Footer/>
