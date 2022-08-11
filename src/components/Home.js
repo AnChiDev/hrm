@@ -11,7 +11,7 @@ function Home() {
              Home - Nhân viên - Phòng Ban - Bảng lương để di chuyển qua lại giữa các chức năng. Ứng dụng được thiết kế tương thích với nhiều kích thước màn hình thiết bị sử dụng</p>
          
             <h6>Tab Nhân viên: </h6>
-            <p>Tab Nhân viên, chúng ta có thể nhìn thấy toàn bộ nhân viên kèm hình ảnh.</p>                
+            <p>Tab Nhân viên, chúng ta có thể nhìn thấy toàn bộ nhân viên kèm hình ảnh. Ngoài ra chúng ta có thể tìm kiếm nhân viên theo tên</p>                
     
             <h6>Chi tiết nhân viên: </h6>
             <p>Tại danh sách nhân viên, khi muốn xem chi tiết về một nhân viên, người dùng chỉ cần chọn ảnh của nhân viên đó.</p>                
