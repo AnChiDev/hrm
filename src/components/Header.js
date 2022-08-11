@@ -12,18 +12,13 @@ return(
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="me-auto">
-        <Nav.Link href="/"  className ="text-light fs-5"><i class="fa fa-users" aria-hidden="true"> Nhân viên</i></Nav.Link>
+        <Nav.Link href="/StaffList"  className ="text-light fs-5"><i class="fa fa-users" aria-hidden="true"> Nhân viên</i></Nav.Link>
         <Nav.Link href="/"  className ="text-light fs-5"><i class="fa fa-id-card-o" aria-hidden="true"> Phòng ban</i></Nav.Link>
         <Nav.Link href="/"  className ="text-light fs-5"><i class="fa fa-money" aria-hidden="true"> Bảng lương</i></Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Container>
 </Navbar>
-<div className ="container-fluid">
-  <div className ="row"> 
-  <h3 className ="m-3">Nhân viên</h3>
-  </div>
-</div>
 </div>
 )
 }

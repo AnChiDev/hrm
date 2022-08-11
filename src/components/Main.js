@@ -16,16 +16,16 @@ class Main extends Component {
     };
   }
 
-  onStaffSelect(staffId) {
-    this.setState({ selectedStaff: staffId});
-  }
-
   render() {
     const HomePage = () => {
       return(
-          <Home 
-          />
+          <Home/>
       );
+    }
+    const StaffWithID =({match})=>{
+      return(
+        <StaffInfo staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} />
+      )
     }
     return (
       <div>
@@ -33,6 +33,7 @@ class Main extends Component {
             <Switch>
               <Route path='/home' component={HomePage} />
               <Route exact path='/StaffList' component={() => <StaffList staffs={this.state.staffs} />} />
+              <Route path='/StaffList/:staffId' component ={StaffWithID}/>             
               <Redirect to="/home" />
           </Switch>
           <Footer/>
