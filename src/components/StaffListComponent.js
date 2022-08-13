@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Card, CardImg,
-    CardTitle, Breadcrumb, BreadcrumbItem,Input, Form, Row, Col, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+    CardTitle, Breadcrumb, BreadcrumbItem,Input, Form, Row, Col, Button, Modal, ModalHeader, ModalBody, FormGroup, Label} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
@@ -27,6 +27,7 @@ constructor(props){
     }
    this.handleSearch = this.handleSearch.bind(this);
    this.handleAddStaff = this.handleAddStaff.bind(this);
+   this.toggleModal = this.toggleModal.bind(this);
     }
     handleSearch(e){
         const searchName = this.search.value
@@ -43,10 +44,11 @@ constructor(props){
         this.setState({
           isModalOpen: !this.state.isModalOpen
         });
+       
       }
-    handleAddStaff(){
+    handleAddStaff(event){
         this.toggleModal();
-        alert('thêm modal')
+      event.preventDefault();
     }
 
     render() {
@@ -111,17 +113,60 @@ constructor(props){
                 <div className = "col col-12 col-md-6 col-lg-6">
                 <p> Thêm nhân viên mới:  </p>
                     <div class="col col-6">
-                    <Form onSubmit={this.handleAddStaff}>
+                    <Form>
                     <Row className="form-group" >
                         <Col md={10}>
-                                <Button color="primary" type="submit" >Thêm nhân viên mới</Button>
+                                <Button color="primary" type="submit" onClick={this.handleAddStaff}>Thêm nhân viên mới</Button>
                         </Col>
                     </Row>
                 </Form>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+                <ModalHeader toggle={this.toggleModal}>Thêm nhân viên mới</ModalHeader>
                 <ModalBody>
-                
+                <Form onSubmit={this.handleAddStaff}>
+                            <FormGroup>
+                                <Label htmlFor="name">Tên</Label>
+                                <Input type="text" id="name" name="name"
+                                    innerRef={(input) => this.name = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="doB ">Ngày sinh</Label>
+                                <Input type="date" id="doB " name="doB "
+                                    innerRef={(input) => this.doB = input}  />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="startDate">Ngày vào công ty</Label>
+                                <Input type="date" id="startDate " name="startDate "
+                                    innerRef={(input) => this.startDate= input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="department">Phòng ban</Label>
+                                <Input type="select" id="department" name="department"
+                                 innerRef={(input) => this.department= input}>
+                                <option>Sales</option>
+                                <option>HR</option>
+                                <option>Marketing</option>
+                                <option>IT</option>
+                                <option>Finance</option>
+                            </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="salaryScale">Hệ số lương</Label>
+                                <Input type="number" id="salaryScale" name="salaryScale"
+                                    innerRef={(input) => this.salaryScale = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
+                                <Input type="number" id="annualLeave" name="annualLeave"
+                                    innerRef={(input) => this.annualLeave = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="overTime">Số ngày đã làm thêm</Label>
+                                <Input type="number" id="overTime" name="overTime"
+                                    innerRef={(input) => this.overTime = input} />
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Thêm</Button>
+                        </Form>
                 </ModalBody>
             </Modal>
                 </div>
