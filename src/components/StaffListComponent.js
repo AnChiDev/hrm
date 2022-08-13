@@ -24,7 +24,8 @@ constructor(props){
         classDefault: "col col-6 col-md-4 col-lg-2 mt-3",
         searchName: "",
     }
-   this.handleSearch = this.handleSearch.bind(this)
+   this.handleSearch = this.handleSearch.bind(this);
+   this.handleAddStaff = this.handleAddStaff.bind(this);
     }
     handleSearch(e){
         const searchName = this.search.value
@@ -79,8 +80,9 @@ constructor(props){
                     </div>
                     </div>
                     <div className ="row mb-3">
+                        <div className = "col col-12 col-md-6 col-lg-6">
                         <p> Tìm kiếm nhân viên:  </p>
-                        <div class="col col-4">
+                        <div class="col col-6">
                         <Form onSubmit={this.handleSearch}>
                         <Row className="form-group" >
                             <Col md={10}>
@@ -94,6 +96,19 @@ constructor(props){
                             </Col>
                         </Row>
                     </Form>
+                    </div>
+                    </div>
+                    <div className = "col col-12 col-md-6 col-lg-6">
+                    <p> Thêm nhân viên mới:  </p>
+                        <div class="col col-6">
+                        <Form onSubmit={this.handleAddStaff}>
+                        <Row className="form-group" >
+                            <Col md={10}>
+                                 <Button color="primary" type="submit" >Thêm nhân viên mới</Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                    </div>
                         </div>
                     </div>
                 </div>
