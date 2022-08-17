@@ -106,7 +106,7 @@ constructor(props){
                 <div className = "col col-12 col-md-6 col-lg-6">
                 <p> Thêm nhân viên mới:  </p>
                     <div class="col col-6">
-                    <AddStaff />
+                    <AddStaff staffs={this.props.staffs} handleSubmit={this.handleSubmit}/>
                     </div>
                     </div>
                 </div>
