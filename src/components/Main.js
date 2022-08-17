@@ -13,11 +13,12 @@ class Main extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+
+    this.state = ({
         staffs: STAFFS,
         departments: DEPARTMENTS
-    };
-  }
+    })
+}
 
   render() {
     const HomePage = () => {
@@ -30,13 +31,15 @@ class Main extends Component {
         <StaffInfo staff={this.state.staffs.filter((staff) => staff.id === parseInt(match.params.staffId,10))[0]} />
       )
     }
+   
 
     return (
       <div>
         <Header/>
             <Switch>
               <Route path='/home' component={HomePage} />
-              <Route exact path='/StaffList' component={() => <StaffList staffs={this.state.staffs} />} />
+              <Route exact path='/StaffList' component={() => <StaffList staffs={this.state.staffs} />}/>
+                                                                
               <Route path='/StaffList/:staffId' component ={StaffWithID}/> 
               <Route exact path='/Department' component={() => <Department departments={this.state.departments} />} />      
               <Route exact path='/Salary' component={() => <Salary staffs={this.state.staffs} />} />          

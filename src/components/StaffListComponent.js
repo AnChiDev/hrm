@@ -4,8 +4,6 @@ import { Card, CardImg,
 import { Link } from 'react-router-dom';
 import AddStaff from './AddStaff';
 
-
-
 function RenderStaffList ({staff}) {
     return (
         <Card>
@@ -30,17 +28,21 @@ constructor(props){
   
     }
     handleSearch(e){
-        const searchName = this.search.value
+        const searchName = this.search.value;
         this.setState({
             staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(searchName.toLowerCase()))
         })
+
         e.preventDefault()
     }
     onSelectedCol(col){
         col = document.getElementById('numberCol').value;
         this.setState({classDefault: col})
     }
-   
+    handleSubmit = (staff) => {
+        this.props.handleSubmit(staff);
+    }
+    
     render() {
         const menu = this.state.staffs.map((staff) => {
             return (
@@ -63,6 +65,7 @@ constructor(props){
                 <div className="col-12">
                     <h3>Danh sách nhân viên</h3>
                     <hr />
+                    
                 </div>                
             </div>
             <div className="row">
@@ -103,7 +106,7 @@ constructor(props){
                 <div className = "col col-12 col-md-6 col-lg-6">
                 <p> Thêm nhân viên mới:  </p>
                     <div class="col col-6">
-                    <AddStaff/>
+                    <AddStaff />
                     </div>
                     </div>
                 </div>

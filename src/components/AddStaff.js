@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {Input, Modal, ModalHeader, ModalBody, Label, FormGroup,Button, Row, Col, Form, FormFeedback} from 'reactstrap';
+import { DEPARTMENTS } from '../shared/staffs';
 
 class AddStaff extends Component {
   constructor(props) {
@@ -14,12 +15,12 @@ class AddStaff extends Component {
       annualLeave: "",
       salary: "",
       image: "/assets/images/alberto.png",
+      isModalOpen: false,
       touched:{
         name: false,
         doB: false,
         startDate: false,
-      },
-      isModalOpen: false,
+      },   
     };
     this.toggleModal = this.toggleModal.bind(this);//mở modal điền thông tin
     this.handleAddStaff = this.handleAddStaff.bind(this);//open modal
@@ -51,19 +52,42 @@ handleInputChange(event) {
     [name]: value,
   });
 }
-
-handleSubmit(event) {
-  console.log('Current State is: ' + JSON.stringify(this.state));
-  alert('Current State is: ' + JSON.stringify(this.state));
-  event.preventDefault();
-}
+handleSubmit(e) {
+  e.preventDefault();
+        this.setState({
+            touched: { 
+                ...this.state.touched, doB: true, name: true, startDate: true, flag: true
+            }
+        });
+        const errors = this.validate(this.state.name && this.state.doB && this.state.startDate)
+            if (errors.flag === true) {
+                return
+            } else {
+            const newStaff = {
+                id: this.props.staffs.length,
+                name: this.state.name,
+                doB: this.state.doB,
+                salaryScale: this.state.salaryScale,
+                startDate: this.state.startDate,
+                department: DEPARTMENTS.find(department => department.id === this.state.department),
+                annualLeave: this.state.annualLeave,
+                overTime: this.state.overTime,
+                image: this.state.image,
+            }
+            this.toggleModal();
+            this.props.handleSubmit(newStaff);
+            
+        }
+    }
 
 validate(name, doB, startDate) {
     const errors = {
         name: '',
         doB: '',
         startDate:'',
+        flag: false,
     };
+
     if (this.state.touched.name && name.length < 3)
     errors.name = 'Tên nhiều hơn 2 ký tự';
     else if (this.state.touched.name && name.length > 30)
@@ -72,6 +96,10 @@ validate(name, doB, startDate) {
     errors.doB = 'Yêu cầu nhập';
     if (this.state.touched.startDate && startDate==="")
     errors.startDate= 'Yêu cầu nhập';
+  
+    if (name === ''|| doB === ''|| startDate === '') {
+        errors.flag = true;
+    }
 return errors;
 }
 
@@ -79,21 +107,13 @@ return errors;
     const errors = this.validate(this.state.name, this.state.doB, this.state.startDate);
     return (
       <div>
-        <Form onSubmit ={this.handleAddStaff}>
-            <Row className="form-group">
-            <Col md={10}>
-              <Button color="primary"type="submit"
-               > Thêm nhân viên mới </Button>
-            </Col>
-          </Row>
-        </Form>
-        
-        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+         <Button color="primary"type="submit" onClick ={this.toggleModal} > Thêm nhân viên mới </Button>
+          <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>
             Thêm nhân viên mới
           </ModalHeader>
           <ModalBody>
-          <Form onSubmit ={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label htmlFor="name">Tên</Label>
                 <Input
@@ -173,17 +193,15 @@ return errors;
                   type="number"
                   id="overTime"
                   name="overTime"
-
                   defaultValue={0}
                   onChange={this.handleInputChange} />
               </FormGroup>
-              <Button type="submit" value="submit" color="primary">
+              <Button type="submit" color="primary"  >
                 Thêm
               </Button>
               </Form>
           </ModalBody>
         </Modal>
-     
       </div>
     );
   }
