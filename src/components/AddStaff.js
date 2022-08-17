@@ -76,7 +76,7 @@ handleSubmit(e) {
             }
             this.toggleModal();
             this.props.handleSubmit(newStaff);
-            
+            localStorage.setItem('store', JSON.stringify(newStaff));
         }
     }
 
