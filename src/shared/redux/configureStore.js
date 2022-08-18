@@ -1,5 +1,6 @@
-import { legacy_createStore as createStore} from 'redux'
-import { Reducer, initialState } from './reducer'
+import { legacy_createStore as createStore} from 'redux';
+import { Reducer, initialState } from './reducer';
+import * as ActionTypes from './reducer';
 
 export const ConfigureStore = () => {
     const store = createStore(
@@ -9,3 +10,8 @@ export const ConfigureStore = () => {
 
     return store;
 }
+
+export const addStaff = (newStaff) => ({
+    type: ActionTypes.ADD_NEW_STAFF,
+    payload: newStaff
+});

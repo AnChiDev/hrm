@@ -1,26 +1,28 @@
 import React, { Component } from "react";
 import StaffList from "./StaffListComponent.js";
 import StaffInfo from "./StaffInfo.js";
-import { DEPARTMENTS, STAFFS } from "../shared/staffs.jsx";
+import { addStaff } from '../shared/redux/configureStore';
 import Header from "./Header.js";
 import Footer from "./Footer.js";
 import Home from "./Home.js";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
 import Department from "./Departments.js";
 import Salary from "./Salary.js";
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      staffs: STAFFS,
-      departments: DEPARTMENTS,
-    };
+const mapStateToProps = state => {
+  return {
+   staffs: state.staffs,
+   departments: state.departments,
+   role: state.role,
   }
-  handleSubmit = (newStaff) => {
-    this.setState({ staffs: [...this.state.staffs, newStaff] });
-  };
+}
+const mapDispatchToProps = (dispatch) => ({
+  addStaff: (newStaff) => dispatch(addStaff(newStaff))
+})
+
+class Main extends Component {
+  
   render() {
     const HomePage = () => {
       return <Home />;
@@ -47,8 +49,8 @@ class Main extends Component {
             path="/StaffList"
             component={() => (
               <StaffList
-                staffs={this.state.staffs}
-                handleSubmit={this.handleSubmit}
+                staffs={this.props.staffs}
+                handleSubmit={this.props.addStaff}
               />
             )}
           />
@@ -58,13 +60,13 @@ class Main extends Component {
             exact
             path="/Department"
             component={() => (
-              <Department departments={this.state.departments} />
+              <Department departments={this.props.departments} />
             )}
           />
           <Route
             exact
             path="/Salary"
-            component={() => <Salary staffs={this.state.staffs} />}
+            component={() => <Salary staffs={this.props.staffs} />}
           />
           <Redirect to="/home" />
         </Switch>
@@ -73,5 +75,4 @@ class Main extends Component {
     );
   }
 }
-
-export default Main;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
