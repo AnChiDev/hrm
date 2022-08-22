@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import StaffList from "./StaffListComponent.js";
 import StaffInfo from "./StaffInfo.js";
-import { addStaff } from '../shared/redux/configureStore';
 import Header from "./Header.js";
 import Footer from "./Footer.js";
 import Home from "./Home.js";
@@ -9,20 +8,35 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Department from "./Departments.js";
 import Salary from "./Salary.js";
+import { DEPARTMENTS, STAFFS } from "../shared/staffs.jsx";
 
 const mapStateToProps = state => {
   return {
    staffs: state.staffs,
    departments: state.departments,
-   role: state.role,
   }
 }
-const mapDispatchToProps = (dispatch) => ({
-  addStaff: (newStaff) => dispatch(addStaff(newStaff))
-})
 
 class Main extends Component {
+  constructor(props){
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state={
+      staffs:STAFFS,
+      departments: DEPARTMENTS,
+    };
   
+  }
+ handleSubmit = (newStaff) => {
+    // this.setState({staffs: [...this.state.staffs, newStaff]});
+    const currentStaffs = this.state.staffs;
+    this.setState({
+      staffs: currentStaffs.concat([newStaff]),
+    });
+    localStorage.setItem("store", JSON.stringify(currentStaffs.concat([newStaff])));
+    // console.log(JSON.stringify(currentStaffs.concat([newStaff])))
+  }
+
   render() {
     const HomePage = () => {
       return <Home />;
@@ -31,7 +45,7 @@ class Main extends Component {
       return (
         <StaffInfo
           staff={
-            this.state.staffs.filter(
+            this.props.staffs.filter(
               (staff) => staff.id === parseInt(match.params.staffId, 10)
             )[0]
           }
@@ -49,8 +63,7 @@ class Main extends Component {
             path="/StaffList"
             component={() => (
               <StaffList
-                staffs={this.props.staffs}
-                handleSubmit={this.props.addStaff}
+                staffs={this.props.staffs}  handleSubmit={this.handleSubmit}
               />
             )}
           />
@@ -75,4 +88,4 @@ class Main extends Component {
     );
   }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default withRouter(connect(mapStateToProps)(Main));

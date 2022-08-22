@@ -22,7 +22,6 @@ constructor(props){
         staffs: this.props.staffs,
         classDefault: "col col-6 col-md-4 col-lg-2 mt-3",
         searchName: "",
-
     }
    this.handleSearch = this.handleSearch.bind(this);
   
@@ -51,7 +50,6 @@ constructor(props){
                     <RenderStaffList staff={staff}/>
                 </div>
                 </div>
-        
             );
         });
     
@@ -64,8 +62,7 @@ constructor(props){
                 </Breadcrumb>
                 <div className="col-12">
                     <h3>Danh sách nhân viên</h3>
-                    <hr />
-                    
+                    <hr />  
                 </div>                
             </div>
             <div className="row">
@@ -107,6 +104,7 @@ constructor(props){
                 <p> Thêm nhân viên mới:  </p>
                     <div class="col col-6">
                     <AddStaff staffs={this.props.staffs} handleSubmit={this.handleSubmit}/>
+                    
                     </div>
                     </div>
                 </div>
