@@ -11,7 +11,7 @@ class AddStaff extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: "/assets/images/user.png",
+      image:'/assets/images/alberto.png',
       isOpenModal: false,
       staffs: this.props.staffs,
       departments: this.props.departments,

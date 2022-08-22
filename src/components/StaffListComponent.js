@@ -40,6 +40,7 @@ constructor(props){
     }
     handleSubmit = (staff) => {
         this.props.handleSubmit(staff);
+        // console.log(JSON.stringify(staff))
     }
     
     render() {

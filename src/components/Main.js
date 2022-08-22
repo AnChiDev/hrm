@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Department from "./Departments.js";
 import Salary from "./Salary.js";
 import { DEPARTMENTS, STAFFS } from "../shared/staffs.jsx";
+import { handleSubmit } from "../shared/redux/ActionCreators.js";
 
 const mapStateToProps = state => {
   return {
@@ -16,25 +17,29 @@ const mapStateToProps = state => {
    departments: state.departments,
   }
 }
+const mapDispatchToProps = (dispatch) => ({
+  handleSubmit: (newStaff) => dispatch(handleSubmit(newStaff))
+})
+
 
 class Main extends Component {
   constructor(props){
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state={
       staffs:STAFFS,
       departments: DEPARTMENTS,
     };
-  
+     
   }
  handleSubmit = (newStaff) => {
-    // this.setState({staffs: [...this.state.staffs, newStaff]});
-    const currentStaffs = this.state.staffs;
-    this.setState({
-      staffs: currentStaffs.concat([newStaff]),
-    });
-    localStorage.setItem("store", JSON.stringify(currentStaffs.concat([newStaff])));
-    // console.log(JSON.stringify(currentStaffs.concat([newStaff])))
+    this.setState({staffs: [...this.state.staffs, newStaff]});
+    // const currentStaffs = this.state.staffs;
+    // this.setState({
+    //   staffs: currentStaffs.concat([staff]),
+    // });
+    // localStorage.setItem("store", JSON.stringify(currentStaffs.concat([staff])));
+    console.log(JSON.stringify([newStaff]))
   }
 
   render() {
@@ -63,7 +68,7 @@ class Main extends Component {
             path="/StaffList"
             component={() => (
               <StaffList
-                staffs={this.props.staffs}  handleSubmit={this.handleSubmit}
+                staffs={this.props.staffs}  handleSubmit={this.props.handleSubmit}
               />
             )}
           />
@@ -88,4 +93,4 @@ class Main extends Component {
     );
   }
 }
-export default withRouter(connect(mapStateToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
