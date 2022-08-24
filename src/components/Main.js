@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Department from "./Departments.js";
 import Salary from "./Salary.js";
 import { DEPARTMENTS, STAFFS } from "../shared/staffs.jsx";
-import { handleSubmit } from "../shared/redux/ActionCreators.js";
+import { handleSubmit } from "../redux/ActionCreators";
 
 const mapStateToProps = state => {
   return {
@@ -34,11 +34,6 @@ class Main extends Component {
   }
  handleSubmit = (newStaff) => {
     this.setState({staffs: [...this.state.staffs, newStaff]});
-    // const currentStaffs = this.state.staffs;
-    // this.setState({
-    //   staffs: currentStaffs.concat([staff]),
-    // });
-    // localStorage.setItem("store", JSON.stringify(currentStaffs.concat([staff])));
     console.log(JSON.stringify([newStaff]))
   }
 

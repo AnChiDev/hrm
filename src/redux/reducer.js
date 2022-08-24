@@ -1,4 +1,4 @@
-import { STAFFS, DEPARTMENTS,ROLE  } from "../staffs";
+import { STAFFS, DEPARTMENTS,ROLE  } from "../shared/staffs";
 import * as ActionTypes from './ActionTypes';
 
 export const initialState = {
