@@ -12,6 +12,7 @@ class App extends Component {
    render(){
 
     return(
+
       <Provider store={store}>
       <BrowserRouter>
         <div className="App">

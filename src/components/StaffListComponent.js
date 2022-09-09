@@ -44,7 +44,7 @@ constructor(props){
     }
     
     render() {
-        const menu = this.state.staffs.map((staff) => {
+        const menu = this.state.staffs.staffs.map((staff) => {
             return (
                 <div className={this.state.classDefault}>
                 <div key={staff.id}>

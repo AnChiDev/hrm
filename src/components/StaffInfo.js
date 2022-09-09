@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 
 //hiển thị thông tin khi click
-function RenderStaff({ staff }) {
+function RenderStaff({ staff, department }) {
   return (
     <div className="container">
       <div className="row">
@@ -29,7 +29,7 @@ function RenderStaff({ staff }) {
               <CardText>
                 Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}{" "}
               </CardText>
-              <CardText>Phòng ban: {staff.department.name} </CardText>
+              <CardText>Phòng ban: {department.name} </CardText>
               <CardText>Số ngày nghỉ còn lại: {staff.annualLeave} </CardText>
               <CardText>Số ngày đã làm thêm: {staff.overTime} </CardText>
             </CardBody>
@@ -41,7 +41,7 @@ function RenderStaff({ staff }) {
 }
 const StaffInfo = (props) => {
   console.log(props.staff);
-  if (props.staff) {
+  if (props.staff != null && props.department != null) {
     return (
       <div className="container">
         <div className="row">
@@ -57,7 +57,9 @@ const StaffInfo = (props) => {
           </div>
         </div>
         <div className="row">
-          <RenderStaff staff={props.staff} />
+          <RenderStaff staff={props.staff} 
+           department={props.department.filter(
+            (department) => department.id === props.staff.departmentId)}/>
         </div>
       </div>
     );

@@ -1,11 +1,19 @@
-import { legacy_createStore as createStore} from 'redux';
-import { Reducer, initialState } from './reducer';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware} from 'redux';
+import { Staffs } from './staffs';
+import { Departments } from './departments';
+import { Salary } from './salary';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 
 export const ConfigureStore = () => {
     const store = createStore(
-        Reducer, // reducer
-        initialState, // our initialState
+        combineReducers({
+            staffs: Staffs,
+            department: Departments,
+            salary: Salary
+        }),
+       applyMiddleware(thunk, logger)
     );
 
     return store;

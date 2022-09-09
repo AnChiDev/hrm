@@ -8,34 +8,62 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Department from "./Departments.js";
 import Salary from "./Salary.js";
-import { DEPARTMENTS, STAFFS } from "../shared/staffs.jsx";
-import { handleSubmit } from "../redux/ActionCreators";
+import {
+  postStaff,
+  fetchStaffs,
+  fetchDepartment,
+  fetchSalary,
+} from "../redux/ActionCreators";
+import DepartmentDetail from "./DepartmentDetail.js";
 
 const mapStateToProps = state => {
   return {
    staffs: state.staffs,
    departments: state.departments,
+   salary: state.salary,
   }
 }
 const mapDispatchToProps = (dispatch) => ({
-  handleSubmit: (newStaff) => dispatch(handleSubmit(newStaff))
+
+  fetchStaffs: () => {
+    dispatch(fetchStaffs());
+  },
+  fetchDepartment: () => {
+    dispatch(fetchDepartment());
+  },
+  fetchSalary: () => {
+    dispatch(fetchSalary());
+  },
+  postStaff: (
+    name,
+    doB,
+    salaryScale,
+    startDate,
+    departmentId,
+    annualLeave,
+    overTime
+  ) =>
+    dispatch(
+      postStaff(
+        name,
+        doB,
+        salaryScale,
+        startDate,
+        departmentId,
+        annualLeave,
+        overTime
+      )
+    ),
 })
 
 
 class Main extends Component {
-  constructor(props){
-    super(props);
-
-    this.state={
-      staffs:STAFFS,
-      departments: DEPARTMENTS,
-    };
-     
+  componentDidMount() {
+    this.props.fetchStaffs();
+    this.props.fetchDepartment();
+    this.props.fetchSalary();
   }
- handleSubmit = (newStaff) => {
-    this.setState({staffs: [...this.state.staffs, newStaff]});
-    console.log(JSON.stringify([newStaff]))
-  }
+ 
 
   render() {
     const HomePage = () => {
@@ -44,11 +72,22 @@ class Main extends Component {
     const StaffWithID = ({ match }) => {
       return (
         <StaffInfo
-          staff={
-            this.props.staffs.filter(
-              (staff) => staff.id === parseInt(match.params.staffId, 10)
-            )[0]
-          }
+        staff={
+          this.props.staffs.staffs.filter(
+            (staff) => staff.id === parseInt(match.params.staffId, 10)
+          )[0]
+        }
+        department={this.props.department.department} 
+        />
+      );
+    };
+    const DepartmentWithId = ({ match }) => {
+      return (
+        <DepartmentDetail
+          department={this.props.department.department.find(
+            (department) => department.id === match.params.departmentId
+          )}
+          staffs={this.props.staffs.staffs}
         />
       );
     };
@@ -63,7 +102,10 @@ class Main extends Component {
             path="/StaffList"
             component={() => (
               <StaffList
-                staffs={this.props.staffs}  handleSubmit={this.props.handleSubmit}
+              staffs={this.props.staffs}
+              isLoading={this.props.staffs.isLoading}
+              errMess={this.props.staffs.errMess}
+              postStaff={this.props.postStaff}
               />
             )}
           />
@@ -73,13 +115,22 @@ class Main extends Component {
             exact
             path="/Department"
             component={() => (
-              <Department departments={this.props.departments} />
+              <Department  staffs={this.props.staffs}
+              department={this.props.department}
+              isLoading={this.props.department.isLoading}
+              errMess={this.props.department.errMess} />
             )}
           />
+           <Route
+                path="/department/:departmentId"
+                component={DepartmentWithId}
+              />
           <Route
             exact
             path="/Salary"
-            component={() => <Salary staffs={this.props.staffs} />}
+            component={() => <Salary    salary={this.props.salary}
+            isLoading={this.props.salary.isLoading}
+            errMess={this.props.salary.errMess} />}
           />
           <Redirect to="/home" />
         </Switch>

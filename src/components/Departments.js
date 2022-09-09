@@ -1,32 +1,56 @@
 import React from "react";
-import { Card, CardText, CardBody,
-    CardTitle } from 'reactstrap';
+import {Card, CardTitle, CardBody, CardText} from 'reactstrap';
+import { Loading } from './LoadingComponent'
+import { Link } from 'react-router-dom';
 
 
-function RenderDepartment ({department}) {
+function RenderDepartment ({department, staffs}) {
 return(
-            <Card  style={{
-                height:'150px'
-              }}>
+           <div>
+              <Link to={`/department/${department.id}`}>
+            <Card>
+                <CardTitle className='m-2'>{department.name}</CardTitle>
                 <CardBody>
-                    <CardTitle tag="h5">{department.name}</CardTitle>
-                    <CardText> Số lượng nhân viên: {department.numberOfStaff} </CardText>
+                    <CardText>
+                        Số lượng nhân viên: {staffs.staffs.filter(staff=>staff.departmentId===department.id).length}
+                    </CardText>
                 </CardBody>
             </Card>
+        </Link>
+           </div>
 )
 }
 const Department =(props) =>{
    
-    const department = props.departments.map((department) => {
+    const department = props.department.department.map((department) => {
         return(
-            <div key={department.id} className ="col col-12 col-md-6 col-lg-4 mt-4 mb-4">
-                <RenderDepartment department={department} />
+            <div className="col-12 col-md-6 col-lg-4 mt-3 mb-3" key={department.id}>
+                <RenderDepartment key={department.id} dept={department}  staffs={props.staffs} />
             </div>
         )
-    })
+    });
+
+    if (props.isLoading) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <Loading />
+                </div>
+            </div>
+        );
+    } else if (props.errMess) {
+        return(
+            <div className="container">
+                <div className="row">            
+                    <h4>{this.props.errMess}</h4>
+                </div>
+            </div>
+        );
+    } else 
+
     return(
         <div className="container">
-            <div className="row">
+            <div className="row m-3">
                 {department}
             </div>
         </div>
