@@ -4,17 +4,24 @@ import { Card, CardImg,
 import { Link } from 'react-router-dom';
 import AddStaff from './AddStaff';
 import { Loading } from './LoadingComponent';
-
+import { FadeTransform } from 'react-animation-components';
 
 
 function RenderStaffList ({staff}) {
     return (
+        <FadeTransform
+        in
+        transformProps={{
+          exitTransform: 'scale(0.5) translateY(50%)',
+        }}
+      >
         <Card>
             <Link to={`/StaffList/${staff.id}`} >
             <CardImg src = '/assets/images/alberto.png' alt={staff.name}/>
             <CardTitle  style={{ fontWeight: 550, backgroundColor: "#C6E2FF", textAlign:"center", height:35}}>{staff.name}</CardTitle>
             </Link>
         </Card>
+        </FadeTransform>
     );
 }
 

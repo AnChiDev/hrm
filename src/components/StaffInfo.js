@@ -15,7 +15,7 @@ import { editStaff, deleteStaff } from '../redux/ActionCreators';
 import { connect } from 'react-redux';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Col, Label, Row, Modal, ModalBody, ModalHeader } from 'reactstrap';
-
+import { Fade } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -37,7 +37,7 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
     <div className="container">
       <div className="row">
         <div className="col-12 col-md-4 col-lg-3">
-      
+        <Fade in>
             <Card>
               <CardImg
                 width="100%"
@@ -45,9 +45,10 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
                 alt={staff.name}
               />
             </Card>
-    
+    </Fade>
         </div>
         <div className="col-12 col-md-8 col-lg-9">
+        <Fade in>
             <Card>
               <CardBody>
                 <CardTitle>Họ và tên: {staff.name}</CardTitle>
@@ -62,6 +63,7 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
                 <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
               </CardBody>
             </Card> 
+            </Fade>
         </div>
         <div className="col-3">
           <button
