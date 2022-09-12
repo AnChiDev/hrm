@@ -48,7 +48,6 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
     
         </div>
         <div className="col-12 col-md-8 col-lg-9">
-         
             <Card>
               <CardBody>
                 <CardTitle>Họ và tên: {staff.name}</CardTitle>
@@ -62,8 +61,7 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
                 <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
                 <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
               </CardBody>
-            </Card>
-      
+            </Card> 
         </div>
         <div className="col-3">
           <button
@@ -111,7 +109,6 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
       image: staff.image,
     };
     editStaff(staffEdit);
-    console.log(staffEdit);
   };
 
   //UI modal
@@ -200,7 +197,7 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
               Phòng ban
             </Label>
             <Col md={8}>
-              <select model=".departments" className="form-control">
+              <select model=".department" className="form-control" id="department">
                 <option value="Dept01">Sale</option>
                 <option value="Dept02">HR</option>
                 <option value="Dept03">Marketing</option>

@@ -64,7 +64,6 @@ export const fetchStaffs = () => (dispatch) => {
 // edit Staff
 
 export const editStaff = (staffEdit) => (dispatch) => {
-
   return fetch(baseUrl + 'staffs', {
       method: 'PATCH',
       body: JSON.stringify(staffEdit),
@@ -92,7 +91,6 @@ export const editStaff = (staffEdit) => (dispatch) => {
           alert(`Your staff cant be edit Error:${error.message}`)
       })
 }
-
 
 // delete Staff
 export const deleteStaff = (id) => dispatch => {
