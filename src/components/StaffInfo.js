@@ -197,7 +197,9 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
               Phòng ban
             </Label>
             <Col md={8}>
-              <select model=".department" className="form-control" id="department">
+              <select model=".department" className="form-control" id="department"
+            >
+                <option value="">Select Department</option>
                 <option value="Dept01">Sale</option>
                 <option value="Dept02">HR</option>
                 <option value="Dept03">Marketing</option>
