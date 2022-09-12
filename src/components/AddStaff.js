@@ -1,11 +1,28 @@
-import React, { Component } from "react";
-import { Label, Modal, ModalHeader, ModalBody, Button, Row, Col } from 'reactstrap';
+/* eslint-disable react/jsx-pascal-case */
+import React, { Component } from 'react';
+import {
+  Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Button,
+  Row,
+  Col,
+} from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import { DEPARTMENTS } from "../shared/staffs";
+import { postStaff, fetchStaffs } from '../redux/ActionCreators';
+import { connect } from 'react-redux';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => !val || val.length >= len;
+
+
+const mapDispatchToProps = (dispatch) => ({
+  postStaff: (newStaff) => dispatch(postStaff(newStaff)),
+  fetchStaffs: () => dispatch(fetchStaffs()),
+});
+
 
 class AddStaff extends Component {
   constructor(props) {
@@ -27,39 +44,29 @@ class AddStaff extends Component {
   }
   handleAddStaff() {
     this.toggleModal();
-
   }
-  // handleBlur = (field) => () => {
-  //   this.setState({
-  //     touched: { ...this.state.touched, [field]: true },
-  //   });
-  // };
-  // handleInputChange(event) {
-  //   const target = event.target;
-  //   const value = target.type === "checkbox" ? target.checked : target.value;
-  //   const name = target.name;
-
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
+ 
   handleSubmit(value) {
+    const salary = parseInt(
+      value.salaryScale * 3000000 + value.overTime * 200000,
+      10
+    );
     const newStaff = {
       id: this.props.staffs.length,
       name: value.name,
       doB: value.doB,
       salaryScale: +value.salaryScale,
       startDate: value.startDate,
-      department: DEPARTMENTS.find(
-        (department) => department.id === value.department
-      ),
+      departmentId: value.department,
       annualLeave: +value.annualLeave,
       overTime: +value.overTime,
+      salary: salary,
       image: this.state.image,
     };
     this.toggleModal();
-    this.props.handleSubmit(newStaff);
-    localStorage.setItem("store", JSON.stringify(newStaff));
+    this.props.postStaff(newStaff);
+    this.props.fetchStaffs();
+
     // alert('Current State is: ' + JSON.stringify(newStaff));
   }
 
@@ -75,7 +82,7 @@ class AddStaff extends Component {
             Thêm nhân viên mới
           </ModalHeader>
           <ModalBody>
-            <LocalForm onSubmit={this.handleSubmit}>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
               <Row className="form-group mb-3">
                 <Label htmlFor="name" md={5}>
                   Họ và tên
@@ -231,4 +238,4 @@ class AddStaff extends Component {
     );
   }
 }
-export default AddStaff;
+export default connect(null, mapDispatchToProps)(AddStaff);

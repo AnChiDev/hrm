@@ -1,76 +1,42 @@
-import React from "react";
-import {
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  Breadcrumb,
-  BreadcrumbItem,
-} from "reactstrap";
-import { Link } from "react-router-dom";
-import { Loading } from "./LoadingComponent";
+import React from 'react';
+import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-function RenderSalary({ salary }) {
-  return (
-    <Card className="style-sara">
-      <CardBody>
-        <CardTitle className="text-center">{salary.name}</CardTitle>
-        <CardText>Mã nhân viên: {salary.id}</CardText>
-        <CardText>Hệ số lương: {salary.salaryScale}</CardText>
-        <CardText>Số ngày làm thêm: {salary.overTime}</CardText>
-        <Breadcrumb>
-          Lương:{" "}
-          {Number(
-            salary.salaryScale * 3000000 + salary.overTime * 200000
-          ).toFixed()}
-        </Breadcrumb>
-      </CardBody>
-    </Card>
-  );
-}
+    const Salary = (props) => {
+        const basicSalary = 3000000;
+        const overTimeSalary = 200000;
+      
+        const staffSalary = props.staffs.staffs.map((staff) => {
+            const salary = parseInt(((staff.salaryScale * basicSalary) + (staff.overTime * overTimeSalary)),10);
+            return (
+                <div key={staff.id} className="col-12 col-md-6 col-lg-4 my-2">
+                    <Card className="margin-salary">
+                        <div className="m-4">
+                        <CardTitle>{staff.name}</CardTitle>
+                        <CardText>Mã nhân viên: {staff.id}</CardText>
+                        <CardText>Hệ số lương: {staff.salaryScale}</CardText>
+                        <CardText>Số giờ làm thêm: {staff.overTime}</CardText>
+                        <CardText className="salary">Lương: {salary.toLocaleString()} VND</CardText>
+                        </div>
+                    </Card>
+                </div>
+            );
+        });
 
-function Salary(props) {
-  if (props.isLoading) {
-    return (
-      <div className="container">
-        <div className="row">
-          <Loading />
-        </div>
-      </div>
-    );
-  } else if (props.errMess) {
-    return (
-      <div className="container">
-        <div className="row">
-          <h4>{this.props.errMess}</h4>
-        </div>
-      </div>
-    );
-  } else if (props.salary != null) {
-    const displaysalary = props.salary.salary.map((salary) => {
-      return (
-        <div className="row col-xs-12 col-md-6 col-lg-4">
-          <RenderSalary key={salary.id} salary={salary} />
-        </div>
-      );
-    });
+        return (
+            <div className="container">
+                <div className="row">             
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to='/staff'>Nhân Viên</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
+                    </Breadcrumb> 
+                </div>
+                <div className="row">
+                    {staffSalary}
+                </div>
+            </div>
+        );
+    }
 
-    return (
-      <div className="container">
-        <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/staffs">Nhân Viên</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>Bảng Lương</BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-        <div>
-          <div className="row m-1">{displaysalary}</div>
-        </div>
-      </div>
-    );
-  }
-}
 
 export default Salary;

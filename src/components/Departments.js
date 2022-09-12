@@ -1,59 +1,68 @@
 import React from "react";
-import {Card, CardTitle, CardBody, CardText} from 'reactstrap';
-import { Loading } from './LoadingComponent'
-import { Link } from 'react-router-dom';
+import {
+  Card,
+  CardTitle,
+  CardBody,
+  CardText,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { Loading } from './LoadingComponent.js';
 
-
-function RenderDepartment ({department, staffs}) {
-return(
-           <div>
-              <Link to={`/department/${department.id}`}>
-            <Card>
-                <CardTitle className='m-2'>{department.name}</CardTitle>
-                <CardBody>
-                    <CardText>
-                        Số lượng nhân viên: {staffs.staffs.filter(staff=>staff.departmentId===department.id).length}
-                    </CardText>
-                </CardBody>
-            </Card>
-        </Link>
-           </div>
-)
+function RenderDepartment ({department}) {
+  return(
+    <Link className="text-decoration-none" to={`/department/${department.id}`} >
+        <Card>
+            <CardBody>                                
+                <CardTitle tag="h2">{department.name}</CardTitle>
+                <CardText>Số lượng nhân viên:{department.numberOfStaff}
+              </CardText>
+            </CardBody>
+        </Card>
+    </Link>
+);
 }
-const Department =(props) =>{
-   
-    const department = props.department.department.map((department) => {
-        return(
-            <div className="col-12 col-md-6 col-lg-4 mt-3 mb-3" key={department.id}>
-                <RenderDepartment key={department.id} dept={department}  staffs={props.staffs} />
-            </div>
-        )
-    });
-
-    if (props.isLoading) {
-        return(
-            <div className="container">
-                <div className="row">            
-                    <Loading />
-                </div>
-            </div>
-        );
-    } else if (props.errMess) {
-        return(
-            <div className="container">
-                <div className="row">            
-                    <h4>{this.props.errMess}</h4>
-                </div>
-            </div>
-        );
-    } else 
-
-    return(
-        <div className="container">
-            <div className="row m-3">
-                {department}
-            </div>
-        </div>
-    )
+const Department = (props) => {
+  const department = props.departments.departments.map((department) => {
+      return(
+          <div key={department.id} className="col-12 col-md-6 col-lg-4 my-2">
+              <RenderDepartment department={department} />
+          </div>
+      )
+  })
+  if (props.departments.isLoading) {
+      return(
+          <div className="container">
+              <div className="row">
+                  <Loading />
+              </div>
+          </div>
+      );
+  }
+  else if (props.departments.errMess) {
+      return(
+          <div className="container">
+              <div className="row">
+                  <h4>{props.departments.errMess}</h4>
+              </div>
+          </div>
+      );
+  }
+  else {
+      return(
+          <div className="container">
+              <div className="row">
+                  <Breadcrumb>
+                      <BreadcrumbItem><Link to='/staff'>Nhân Viên</Link></BreadcrumbItem>
+                      <BreadcrumbItem active>Phòng Ban</BreadcrumbItem>
+                  </Breadcrumb>
+              </div>
+              <div className="row">
+                  {department}
+              </div>
+          </div>
+      );
+  }
 }
 export default Department;
