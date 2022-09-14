@@ -75,7 +75,7 @@ class Main extends Component {
           />
 
           <Route path="/staffList/:staffId" component={StaffWithID} />
-          <Route exact path="/department" component={() => <Department departments={this.props.departments} />} />
+          <Route exact path="/department" component={() => <Department departments={this.props.departments}/>} />
           <Route path="/department/:departmentId" component={DepartmentWithID} />
           <Route path="/salary" component={() => <Salary staffs={this.props.staffs} />} />
           <Redirect to="/home" />

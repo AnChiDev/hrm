@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { Loading } from './LoadingComponent.js';
 
+
 function RenderDepartment ({department}) {
   return(
     <Link className="text-decoration-none" to={`/department/${department.id}`} >
@@ -27,7 +28,8 @@ const Department = (props) => {
   const department = props.departments.departments.map((department) => {
       return(
           <div key={department.id} className="col-12 col-md-6 col-lg-4 my-2">
-              <RenderDepartment department={department} />
+              <RenderDepartment department={department}
+               />
           </div>
       )
   })
