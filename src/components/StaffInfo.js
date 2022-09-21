@@ -104,7 +104,7 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
       name: value.name,
       doB: value.doB,
       startDate: value.startDate,
-      departmentId: value.departmentId,
+      department: value.departmentId,
       salaryScale: +value.salaryScale,
       annualLeave: +value.annualLeave,
       overTime: +value.overTime,
