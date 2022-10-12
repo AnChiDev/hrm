@@ -1,20 +1,19 @@
-import { legacy_createStore as createStore, combineReducers, applyMiddleware} from 'redux';
+import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 import { Staffs } from './Staffs';
 import { Departments } from './Departments';
-import { Salary } from './Salary';
+import { StaffsSalary } from './Salary';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-
 export const ConfigureStore = () => {
-    const store = createStore(
-        combineReducers({
-            staffs: Staffs,
-            departments: Departments,
-            salary: Salary
-        }),
-       applyMiddleware(thunk, logger)
-    );
+	const store = createStore(
+		combineReducers({
+			staffs: Staffs,
+			departments: Departments,
+			staffsSalary: StaffsSalary,
+		}),
+		applyMiddleware(thunk, logger)
+	);
 
-    return store;
-}
+	return store;
+};

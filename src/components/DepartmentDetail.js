@@ -1,59 +1,62 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import {
+	Card,
+	CardImg,
+	CardBody,
+	CardSubtitle,
+	Breadcrumb,
+	BreadcrumbItem,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
-import dateFormat from 'dateformat';
+import { FadeTransform } from 'react-animation-components';
 
+const RenderStaffItem = ({ staff }) => {
+	return (
+		<FadeTransform
+			in
+			transformProps={{
+				exitTransform: 'scale(0.5) translateY(-50%)',
+			}}>
+			<Link to={`/staff/${staff.id}`}>
+				<Card>
+					<CardImg width="100%" src={staff.image} alt={staff.name} />
+					<CardBody>
+						<CardSubtitle>{staff.name}</CardSubtitle>
+					</CardBody>
+				</Card>
+			</Link>
+		</FadeTransform>
+	);
+};
 
-function RenderStaffsDept({ staff, department }) {
-    return staff.map(staff => {
-        return (
-            <div className="container" key={staff.id} >
-                <div className="row my-2">
-                    <div className="col-12 col-md-4 col-lg-3">
-              
-                            <Card>
-                                <CardImg width="100%" src={staff.image} alt={staff.name} />
-                            </Card>
-           
-                    </div>
-                    <div className="col-12 col-md-8 col-lg-9">
-            
-                            <Card>
-                                <CardBody>
-                                    <CardTitle>Họ và tên: {staff.name}</CardTitle>
-                                    <CardText>Ngày sinh: {dateFormat(staff.doB, 'dd/mm/yyyy')}</CardText>
-                                    <CardText>Ngày vào công ty: {dateFormat(staff.startDate, 'dd/mm/yyyy')}</CardText>
-                                    <CardText>Phòng ban: {department.name}</CardText>
-                                    <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
-                                    <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
-                                </CardBody>
-                            </Card>
-            
-                    </div>
-                </div >
-            </div>
-        )
-    })
-}
+const DepartmentDetail = (props) => {
+	const staffs = props.staff.map((val) => (
+		<div className="col-6 col-md-4 col-lg-2 mt-3 mb-3" key={val.id}>
+			<RenderStaffItem staff={val} />
+		</div>
+	));
 
-export const DepartmentStaff = (props) => {
-    return (
-        <div className="container">
-            <div className="row">
-                <Breadcrumb>
-                    <BreadcrumbItem> 
-                        <Link className="text-decoration-none" to="/">Nhân Viên</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbItem> 
-                        <Link className="text-decoration-none" to="/department">Phòng Ban</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbItem active>{props.department.name}</BreadcrumbItem>
-                </Breadcrumb>
-            </div>
-            <RenderStaffsDept
-                staff={props.staff}
-                department={props.department}
-            />
-        </div>
-    )
-}
+	if (props.staff != null && props.dept != null) {
+		return (
+			<div className="container">
+				<div className="row">
+					<Breadcrumb>
+						<BreadcrumbItem>
+							<Link to="/departments">Phòng ban</Link>
+						</BreadcrumbItem>
+						<BreadcrumbItem active>{props.dept.name}</BreadcrumbItem>
+					</Breadcrumb>
+					<div className="col-12">
+						<h3>{props.dept.name}</h3>
+						<hr />
+					</div>
+				</div>
+				<div className="row mb-3">{staffs}</div>
+			</div>
+		);
+	} else {
+		return <div></div>;
+	}
+};
+
+export default DepartmentDetail;

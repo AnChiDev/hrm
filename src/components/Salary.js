@@ -1,42 +1,80 @@
-import React from 'react';
-import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, { useState } from 'react';
+import {
+	Card,
+	CardTitle,
+	CardBody,
+	CardText,
+	Breadcrumb,
+	BreadcrumbItem,
+} from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FadeTransform } from 'react-animation-components';
 
-    const Salary = (props) => {
-        const basicSalary = 3000000;
-        const overTimeSalary = 200000;
-      
-        const staffSalary = props.staffs.staffs.map((staff) => {
-            const salary = parseInt(((staff.salaryScale * basicSalary) + (staff.overTime * overTimeSalary)),10);
-            return (
-                <div key={staff.id} className="col-12 col-md-6 col-lg-4 my-2">
-                    <Card className="margin-salary">
-                        <div className="m-4">
-                        <CardTitle>{staff.name}</CardTitle>
-                        <CardText>Mã nhân viên: {staff.id}</CardText>
-                        <CardText>Hệ số lương: {staff.salaryScale}</CardText>
-                        <CardText>Số giờ làm thêm: {staff.overTime}</CardText>
-                        <CardText className="salary">Lương: {salary.toLocaleString()} VND</CardText>
-                        </div>
-                    </Card>
-                </div>
-            );
-        });
+const luongCB = 3000000;
+const luongGio = 200000;
 
-        return (
-            <div className="container">
-                <div className="row">             
-                    <Breadcrumb>
-                        <BreadcrumbItem><Link to='/staff'>Nhân Viên</Link></BreadcrumbItem>
-                        <BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
-                    </Breadcrumb> 
-                </div>
-                <div className="row">
-                    {staffSalary}
-                </div>
-            </div>
-        );
-    }
+function RenderSalary({ salary }) {
+	return (
+		<FadeTransform
+			in
+			transformProps={{
+				exitTransform: 'scale(0.5) translateY(-50%)',
+			}}>
+			<Card>
+				<CardTitle className="p-3 bg-white rounded m-2">
+					{salary.name}
+				</CardTitle>
+				<CardBody>
+					<CardText>Mã nhân viên: {salary.id}</CardText>
+					<CardText>Hệ số lương: {salary.salaryScale}</CardText>
+					<CardText>Số giờ làm thêm: {salary.overTime}</CardText>
+					<CardText className="bg-light p-2 shadow">
+						Lương:{' '}
+						{(
+							salary.salaryScale * luongCB +
+							salary.overTime * luongGio
+						).toFixed(0)}
+					</CardText>
+				</CardBody>
+			</Card>
+		</FadeTransform>
+	);
+}
 
+const Salary = (props) => {
+	const [sortSalary, setSortSalary] = useState(false);
+
+	const salary = props.salary
+		.sort((a, b) =>
+			sortSalary ? a.salaryScale - b.salaryScale : b.salaryScale - a.salaryScale
+		)
+		.map((ss) => {
+			return (
+				<div className="col-12 col-md-6 col-lg-4 mt-2 mb-2" key={ss.id}>
+					<RenderSalary salary={ss} />
+				</div>
+			);
+		});
+
+	return (
+		<div className="container">
+			<div className="row">
+				<Breadcrumb>
+					<BreadcrumbItem>
+						<Link to="/staff">Nhân viên</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem active>Bảng Lương</BreadcrumbItem>
+				</Breadcrumb>
+			</div>
+
+			<button
+				className="btn btn-danger"
+				onClick={() => setSortSalary(!sortSalary)}>
+				Sắp xếp theo Hệ số lương
+			</button>
+			<div className="row shadow mb-3">{salary}</div>
+		</div>
+	);
+};
 
 export default Salary;

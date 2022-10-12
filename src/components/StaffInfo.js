@@ -1,40 +1,27 @@
-import React,{useState} from "react";
+import React, { Component } from 'react';
 import {
   Card,
-  CardImg,
-  CardText,
   CardBody,
-  CardTitle,
-  Breadcrumb,
-  BreadcrumbItem,
-  Button
-} from "reactstrap";
-import { Link } from "react-router-dom";
-import dateFormat from "dateformat";
-import { editStaff, deleteStaff } from '../redux/ActionCreators';
-import { connect } from 'react-redux';
-import { LocalForm, Control, Errors } from 'react-redux-form';
-import { Col, Label, Row, Modal, ModalBody, ModalHeader } from 'reactstrap';
+	CardImg,
+	CardText,
+	CardTitle,
+	Breadcrumb,
+	BreadcrumbItem,
+	Row,
+	Col,
+	Label,
+	Button,
+	Form,
+} from 'reactstrap';
+import { Link } from 'react-router-dom';
+import dateFormat from 'dateformat';
+import { FadeTransform } from 'react-animation-components';
 import { Fade } from 'react-animation-components';
 
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !val || val.length <= len;
-const minLength = (len) => (val) => !val || val.length >= len;
-
-const mapDispatchToProps = (dispatch) => ({
-  editStaff: (staffEdit) => dispatch(editStaff(staffEdit)),
-  deleteStaff: (id) => dispatch(deleteStaff(id)),
-});
-//hiển thị thông tin khi click
-function RenderStaff({ staff, department, editStaff, deleteStaff }) {
-  const [isOpen, setOpen] = useState(false);
-
-  const onDeleteStaff = () => {
-    deleteStaff(staff.id);
-  };
-
-  return (
-    <div className="container">
+function RenderStaff({ staff, dept }) {
+	if (staff != null && dept != null) {
+		return (
+      <div className="container">
       <div className="row">
         <div className="col-12 col-md-4 col-lg-3">
         <Fade in>
@@ -58,233 +45,253 @@ function RenderStaff({ staff, department, editStaff, deleteStaff }) {
                 <CardText>
                   Ngày vào công ty: {dateFormat(staff.startDate, 'dd/mm/yyyy')}
                 </CardText>
-                <CardText>Phòng ban: {department.name}</CardText>
+                <CardText>Phòng ban: {dept.name}</CardText>
                 <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
                 <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
               </CardBody>
             </Card> 
             </Fade>
         </div>
-        <div className="col-3">
-          <button
-            className="btn btn-primary "
-            onClick={() => {
-              setOpen(!isOpen);
-            }}
-          >
-            {' '}
-            Chỉnh Sửa
-          </button>
         </div>
-        <div className="col-3">
-          <button className="btn btn-danger " onClick={() => onDeleteStaff()}>
-            {' '}
-            Xóa{' '}
-          </button>
         </div>
-      </div>
-      <ModalEdit
-        isOpen={isOpen}
-        setOpen={setOpen}
-        staff={staff}
-        editStaff={editStaff}
-      />
-    </div>
-  );
+		);
+	} else {
+		return <div></div>;
+	}
 }
 
-function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
-  staff.doB = dateFormat(staff.doB, 'yyyy-mm-dd');
-  staff.startDate = dateFormat(staff.startDate, 'yyyy-mm-dd');
-  const handleChange = (value) => {
-    setOpen(!isOpen);
+class EditForm extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			staff: props.staff,
+		};
+	}
 
-    const staffEdit = {
-      id: staff.id,
-      name: value.name,
-      doB: value.doB,
-      startDate: value.startDate,
-      department: value.departmentId,
-      salaryScale: +value.salaryScale,
-      annualLeave: +value.annualLeave,
-      overTime: +value.overTime,
-      image: staff.image,
-    };
-    editStaff(staffEdit);
-  };
-
-  //UI modal
-
-  return (
-    <Modal isOpen={isOpen} toggle={() => setOpen(!isOpen)}>
-      <ModalHeader>Chỉnh sửa thông tin</ModalHeader>
-      <ModalBody>
-        <LocalForm
-          onSubmit={(values) => handleChange(values)}
-          initialState={staff}
-        >
-          <Row className="form-group">
-            <Label htmlFor="name" md={4}>
-              Tên
-            </Label>
-            <Col md={8}>
-              <Control
-                model=".name"
-                className="form-control"
-                validators={{
-                  required,
-                  maxLength: maxLength(30),
-                  minLength: minLength(3),
-                }}
-              />
-              <Errors
-                className="text-danger"
-                model=".name"
-                messages={{
-                  required: 'Yêu cầu nhập',
-                  maxLength: 'Yêu cầu nhập tối đa 30 kí tự ',
-                  minLength: 'Yêu cầu nhập tối thiểu 3 kí tự',
-                }}
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="doB" md={4}>
-              Ngày sinh
-            </Label>
-            <Col md={8}>
-              <Control
-                type="date"
-                model=".doB"
-                name="doB"
-                className="form-control"
-                validators={{
-                  required,
-                }}
-              />
-              <Errors
-                className="text-danger"
-                model=".doB"
-                messages={{
-                  required: 'Yêu cầu nhập',
-                }}
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="startDate" md={4}>
-              Ngày vào công ty
-            </Label>
-            <Col md={8}>
-              <Control
-                type="date"
-                model=".startDate"
-                name="startDate"
-                className="form-control"
-                validators={{
-                  required,
-                }}
-              />
-              <Errors
-                className="text-danger"
-                model=".startDate"
-                messages={{
-                  required: 'Yêu cầu nhập',
-                }}
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="department" md={4}>
-              Phòng ban
-            </Label>
-            <Col md={8}>
-              <select model=".department" className="form-control" id="department"
-            >
-                <option value="">Select Department</option>
-                <option value="Dept01">Sale</option>
-                <option value="Dept02">HR</option>
-                <option value="Dept03">Marketing</option>
-                <option value="Dept04">IT</option>
-                <option value="Dept05">Finance</option>
-              </select>
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="salaryScale" md={4}>
-              Hệ số lương
-            </Label>
-            <Col md={8}>
-              <Control
-                type="number"
-                model=".salaryScale"
-                name="salaryScale"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="annualLeave" md={4}>
-              Số ngày nghỉ còn lại
-            </Label>
-            <Col md={8}>
-              <Control
-                type="number"
-                model=".annualLeave"
-                name="annualLeave"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-          <Row className="form-group">
-            <Label htmlFor="overTime" md={4}>
-              Số ngày đã làm thêm
-            </Label>
-            <Col md={8}>
-              <Control
-                type="number"
-                model=".overTime"
-                name="overTime"
-                className="form-control"
-              />
-            </Col>
-          </Row>
-          <Button type="submit" color="primary">
-            {' '}
-            Chỉnh sửa{' '}
-          </Button>
-        </LocalForm>
-      </ModalBody>
-    </Modal>
-  );
+	handleSubmit(e) {
+		e.preventDefault();
+		const staffUpdated = {
+			id: this.state.staff.id,
+			name: this.state.staff.name,
+			doB: this.state.staff.doB,
+			salaryScale: parseFloat(this.state.staff.salaryScale, 2),
+			startDate: this.state.staff.startDate,
+			image: '/assets/images/alberto.png',
+			departmentId: this.state.staff.departmentId,
+			annualLeave: parseInt(this.state.staff.annualLeave, 10),
+			overTime: parseInt(this.state.staff.overTime, 10),
+		};
+		this.props.onUpdate(staffUpdated);
+	}
+	render() {
+		return (
+			<div>
+				<Form onSubmit={this.handleSubmit.bind(this)}>
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="name">Họ tên</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								name="name"
+								value={this.state.staff.name}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, name: e.target.value },
+									})
+								}
+							/>
+							<input type="hidden" name="id" value={this.state.staff.id} />
+						</Col>
+					</Row>
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="doB">Ngày sinh</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								type="date"
+								name="doB"
+								value={this.state.staff.doB}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, doB: e.target.value },
+									})
+								}
+							/>
+						</Col>
+					</Row>
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="startDate">Ngày vào công ty</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								type="date"
+								name="startDate"
+								value={this.state.staff.startDate}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, startDate: e.target.value },
+									})
+								}
+							/>
+						</Col>
+					</Row>
+          <Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="departmentId">Phòng ban</Label>
+						</Col>
+						<Col md={8}>
+							<select
+								class="form-control"
+								name="departmentId"
+								value={this.state.staff.departmentId}
+								onChange={(e) =>
+									this.setState({
+										staff: {
+											...this.state.staff,
+											departmentId: e.target.value,
+										},
+									})
+								}>
+								<option value="Dept01">Sale</option>
+								<option value="Dept02">HR</option>
+								<option value="Dept03">Marketing</option>
+								<option value="Dept04">IT</option>
+								<option value="Dept05">Finance</option>
+							</select>
+						</Col>
+					</Row>
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="salaryScale">Hệ số lương</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								name="salaryScale"
+								value={this.state.staff.salaryScale}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, salaryScale: e.target.value },
+									})
+								}
+							/>
+						</Col>
+					</Row>
+				
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="annualLeave">Số ngày nghỉ còn lại</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								name="annualLeave"
+								value={this.state.staff.annualLeave}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, annualLeave: e.target.value },
+									})
+								}
+							/>
+						</Col>
+					</Row>
+					<Row className="mb-3">
+						<Col md={4}>
+							<Label htmlFor="overTime">Số ngày đã làm thêm</Label>
+						</Col>
+						<Col md={8}>
+							<input
+								class="form-control"
+								name="overTime"
+								value={this.state.staff.overTime}
+								onChange={(e) =>
+									this.setState({
+										staff: { ...this.state.staff, overTime: e.target.value },
+									})
+								}
+							/>
+						</Col>
+					</Row>
+					<Button color="primary" type="submit">
+						Update
+					</Button>
+				</Form>
+			</div>
+		);
+	}
 }
 
-const StaffInfo = (props) => {
-  
-  if (props.staff != null) {
-    return (
-      <div className="container">
-        <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/staff">Nhân Viên</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active>{props.staff.name}</BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-        <div className="row">
-          <RenderStaff
-            staff={props.staff}
-            department={props.department}
-            editStaff={props.editStaff}
-            deleteStaff={props.deleteStaff}
-          />
-          
-        </div>
-      </div>
-    );
-  } else {
-    return <div></div>;
-  }
-};
-export default connect(null, mapDispatchToProps)(StaffInfo);
+class StaffDetail extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			select: true,
+		};
+	}
+	render() {
+		if (this.props.staff != null) {
+			return (
+				<div className="container">
+					<div className="row">
+						<Breadcrumb>
+							<BreadcrumbItem>
+								<Link to="/staff">Nhân viên</Link>
+							</BreadcrumbItem>
+							<BreadcrumbItem active>{this.props.staff.name}</BreadcrumbItem>
+						</Breadcrumb>
+						<div className="col-12">
+							<h3>{this.props.staff.name}</h3>
+							<Button
+								color="warning"
+								onClick={() => this.setState({ select: !this.state.select })}>
+								Update
+							</Button>
+							<hr />
+						</div>
+					</div>
+					{this.state.select ? (
+						<FadeTransform
+							in
+							transformProps={{
+								exitTransform: 'scale(0.5) translateY(-50%)',
+							}}>
+							<div className="row mb-3">
+								<RenderStaff
+									staff={this.props.staff}
+									dept={
+										this.props.dept.filter(
+											(dp) => dp.id === this.props.staff.departmentId
+										)[0]
+									}
+								/>
+							</div>
+						</FadeTransform>
+					) : (
+						<div className="row mb-3">
+							<FadeTransform
+								in
+								transformProps={{
+									exitTransform: 'scale(0.5) translateY(-50%)',
+								}}>
+								<EditForm
+									staff={this.props.staff}
+									onUpdate={this.props.onUpdateStaff}
+								/>
+							</FadeTransform>
+						</div>
+					)}
+				</div>
+			);
+		} else {
+			return <div></div>;
+		}
+	}
+}
+
+export default StaffDetail;
